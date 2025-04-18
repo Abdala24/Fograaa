@@ -14,7 +14,29 @@ def start(message):
     markup.row('إضافة شحنة', 'حالة الشحنات')
     if message.from_user.id == ADMIN_ID:
         markup.row('لوحة تحكم الأدمن')
-    bot.send_message(message.chat.id, "مرحباً بك في نظام ShahenX للشحن! اختر من الأزرار:", reply_markup=markup)
+    bot.send_message(
+        message.chat.id,
+        "مرحباً بك في نظام ShahenX للشحن! اختر من الأزرار:",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda message: message.text == "لوحة تحكم الأدمن")
+def admin_panel(message):
+    if message.chat.id == ADMIN_ID:
+        bot.send_message(message.chat.id, "أهلاً بك في لوحة تحكم الأدمن!\n- عرض الشحنات\n- إدارة المستخدمين")
+    else:
+        bot.send_message(message.chat.id, "هذه الميزة مخصصة للأدمن فقط.")
+
+@bot.message_handler(func=lambda message: message.text == "حالة الشحنة")
+def check_shipment_status(message):
+    # هنا يتحقق من وجود الشحنة
+    if message.chat.id in user_data and 'tracking' in user_data[message.chat.id]:
+        bot.send_message(
+            message.chat.id,
+            f"حالة الشحنة:\nرقم التتبع: {user_data[message.chat.id]['tracking']}"
+        )
+    else:
+        bot.send_message(message.chat.id, "لا توجد شحنة مسجلة لهذا الحساب.")
 
 @bot.message_handler(func=lambda m: m.text == 'إضافة شحنة')
 def add_shipment(message):
