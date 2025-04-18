@@ -39,13 +39,13 @@ def get_address(message):
 
 def save_shipment(message):
     user_data[message.chat.id]['tracking'] = message.text
-    bot.send_message(message.chat.id, f"تم حفظ الشحنة:
-اسم: {user_data[message.chat.id]['name']}
-"
-                                      f"هاتف: {user_data[message.chat.id]['phone']}
-"
-                                      f"عنوان: {user_data[message.chat.id]['address']}
-"
-                                      f"تتبع: {user_data[message.chat.id]['tracking']}")
+    bot.send_message(
+        message.chat.id,
+        f"تم حفظ الشحنة:\n"
+        f"اسم: {user_data[message.chat.id]['name']}\n"
+        f"هاتف: {user_data[message.chat.id]['phone']}\n"
+        f"عنوان: {user_data[message.chat.id]['address']}\n"
+        f"تتبع: {user_data[message.chat.id]['tracking']}"
+    )
 
 bot.polling(non_stop=True)
